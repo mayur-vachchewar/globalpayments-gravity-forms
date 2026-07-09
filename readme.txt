@@ -41,6 +41,9 @@ Features of SecureSubmit:
 
 
 == Changelog ==
+= 2.2.1 (07/08/2026)=
+* Fix: Heartland error on console
+
 = 2.2.0 =
 * Global payment rebranding 
 

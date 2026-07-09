@@ -882,10 +882,10 @@ class GFSecureSubmit extends GFPaymentAddOn
                 'src' => 'https://js.globalpay.com/v1/globalpayments.js',
                 'version' => $this->_version,
                 'deps' => array(),
+                'in_footer' => false,
                 'enqueue' => array(
                     array(
                         'admin_page' => array('plugin_settings'),
-                        'tab' => array($this->_slug, $this->get_short_title()),
                     ),
                 ),
             ),
@@ -924,7 +924,7 @@ class GFSecureSubmit extends GFPaymentAddOn
                 'handle' => 'gforms_securesubmit_admin',
                 'src' => $this->get_base_url() . '/../assets/js/securesubmit-admin.js',
                 'version' => $this->_version,
-                'deps' => array('jquery'),
+                'deps' => array('jquery', 'securesubmit.js'),
                 'in_footer' => false,
                 'enqueue' => array(
                     array('admin_page' => array('plugin_settings', 'form_editor'), 'tab' => array($this->_slug, $this->get_short_title())),

@@ -47,25 +47,26 @@
     this.validatePublicApiKey = function (keyName, key) {
       this.setKeyStatusIcon(keyName, "<img src='" + gforms_securesubmit_admin_strings.spinner + "'/>");
 
-      var hps = new Heartland.HPS({
-        publicKey: key,
-        cardNumber: '4111111111111111',
-        cardCvv: '123',
-        cardExpMonth: '12',
-        cardExpYear: '2025',
-        success: function (response) {
-          if (response.object === 'token') {
-            window.SecureSubmitAdmin.setKeyStatus(keyName, "1");
-          } else {
-            window.SecureSubmitAdmin.setKeyStatus(keyName, "0");
-          }
+      // Validate public key using server-side validation
+      $.post(
+        ajaxurl,
+        {
+          action : "gf_validate_secret_api_key",
+          keyName: keyName,
+          key : key
         },
-        error: function (response) {
-          window.SecureSubmitAdmin.setKeyStatus(keyName, "0");
-        }
-      });
+        function (response) {
+          response = response.trim();
 
-      hps.tokenize();
+          if (response === "valid") {
+            window.SecureSubmitAdmin.setKeyStatus(keyName, "1");
+          } else if (response === "invalid") {
+            window.SecureSubmitAdmin.setKeyStatus(keyName, "0");
+          } else {
+            window.SecureSubmitAdmin.setKeyStatusIcon(keyName, gforms_securesubmit_admin_strings.validation_error);
+          }
+        }
+      );
     };
 
     this.initKeyStatus = function (keyName) {
